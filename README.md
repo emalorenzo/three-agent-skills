@@ -1,51 +1,128 @@
 # Three Agent Skills
 
-A collection of skills for AI coding agents focused on Three.js and WebGL development.
+AI coding agent skills for Three.js and React Three Fiber development.
 
-Skills follow the [Agent Skills](https://agentskills.io/) format.
-
-## Available Skills
-
-*Coming soon - skills for Three.js, shader programming, and WebGL optimization.*
+Skills follow the [Agent Skills](https://agentskills.io/) specification.
 
 ## Installation
 
 ```bash
-npx add-skill your-username/three-agent-skills
+npx add-skill three-agent-skills
 ```
 
-## Usage
+Or from GitHub directly:
 
-Skills are automatically available once installed. The agent will use them when relevant tasks are detected.
-
-**Examples:**
-```
-Help me set up a Three.js scene
-```
-```
-Review my shader for performance issues
-```
-```
-Optimize my Three.js render loop
+```bash
+npx add-skill emalorenzo/three-agent-skills
 ```
 
-## Skill Structure
+### List available skills
 
-Each skill contains:
-- `SKILL.md` - Instructions for the agent
-- `scripts/` - Helper scripts for automation (optional)
-- `references/` - Supporting documentation (optional)
+```bash
+npx add-skill three-agent-skills --list
+```
 
-See [AGENTS.md](./AGENTS.md) for detailed documentation on creating skills.
+### Install specific skill
 
-## Creating Your Own Skills
+```bash
+npx add-skill three-agent-skills --skill three-best-practices
+npx add-skill three-agent-skills --skill r3f-best-practices
+```
 
-Check `AGENTS.md` for the complete guide on:
-- Directory structure
-- SKILL.md format
-- Script requirements
-- Best practices for context efficiency
-- Testing your skill
+## Available Skills
+
+### three-best-practices
+
+Pure Three.js optimization guidelines. 70+ rules across 12 categories.
+
+**Use when:**
+- Writing Three.js code
+- Optimizing WebGL performance
+- Managing memory and disposal
+- Writing shaders (GLSL or TSL)
+
+**Categories:**
+- Modern Setup & Imports (Import Maps, renderers)
+- Memory Management & Dispose (CRITICAL)
+- Render Loop Optimization (CRITICAL)
+- Geometry & Buffer Management
+- Material & Texture Optimization
+- Lighting & Shadows
+- Scene Graph Organization
+- Shader Best Practices (GLSL)
+- TSL - Three.js Shading Language
+- Loading & Assets
+- Camera & Controls
+- Debug & DevTools
+
+### r3f-best-practices
+
+React Three Fiber and Poimandres ecosystem best practices. 60+ rules across 11 categories.
+
+**Use when:**
+- Writing R3F components
+- Optimizing R3F performance (re-renders)
+- Using Drei helpers
+- Managing state with Zustand
+- Implementing physics or post-processing
+
+**Ecosystem coverage:**
+- @react-three/fiber
+- @react-three/drei
+- @react-three/postprocessing
+- @react-three/rapier
+- zustand
+- leva
+
+**Categories:**
+- Performance & Re-renders (CRITICAL)
+- useFrame & Animation (CRITICAL)
+- Component Patterns
+- Canvas & Setup
+- Drei Helpers
+- Loading & Suspense
+- State Management
+- Events & Interaction
+- Post-processing
+- Physics (Rapier)
+- Leva (Debug GUI)
+
+## Usage Examples
+
+Once installed, the agent uses skills automatically based on context:
+
+```
+Help me set up a Three.js scene with proper memory management
+```
+
+```
+Review my R3F component for performance issues
+```
+
+```
+How do I load GLTF models with Drei?
+```
+
+```
+Optimize my shader for mobile devices
+```
+
+## Supported Agents
+
+Works with any agent that supports the [Agent Skills](https://agentskills.io/) spec:
+
+- Claude Code
+- Cursor
+- Codex
+- OpenCode
+- VS Code Copilot
+- And more...
+
+## Documentation
+
+- Full Three.js guide: [THREE_BEST_PRACTICES.md](./THREE_BEST_PRACTICES.md)
+- Full R3F guide: [R3F_BEST_PRACTICES.md](./R3F_BEST_PRACTICES.md)
+- Creating skills: [AGENTS.md](./AGENTS.md)
 
 ## License
 

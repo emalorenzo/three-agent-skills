@@ -1,0 +1,33 @@
+{
+  "name": "three-agent-skills",
+  "version": "1.0.0",
+  "description": "AI coding agent skills for Three.js and React Three Fiber best practices",
+  "keywords": [
+    "threejs",
+    "three.js",
+    "react-three-fiber",
+    "r3f",
+    "webgl",
+    "3d",
+    "agent-skills",
+    "ai",
+    "llm",
+    "claude",
+    "cursor"
+  ],
+  "author": "emalorenzo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emalorenzo/three-agent-skills.git"
+  },
+  "homepage": "https://github.com/emalorenzo/three-agent-skills#readme",
+  "bugs": {
+    "url": "https://github.com/emalorenzo/three-agent-skills/issues"
+  },
+  "files": [
+    "skills",
+    "AGENTS.md",
+    "README.md"
+  ]
+}
