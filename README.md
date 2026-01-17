@@ -33,13 +33,16 @@ npx add-skill three-agent-skills --skill r3f-best-practices
 
 ### three-best-practices
 
-Pure Three.js optimization guidelines. 70+ rules across 12 categories.
+Pure Three.js optimization guidelines. 100+ rules across 17 categories.
 
 **Use when:**
 - Writing Three.js code
-- Optimizing WebGL performance
+- Optimizing WebGL/WebGPU performance
 - Managing memory and disposal
 - Writing shaders (GLSL or TSL)
+- Building VR/AR experiences with WebXR
+- Integrating physics engines
+- Optimizing for mobile devices
 
 **Categories:**
 - Modern Setup & Imports (Import Maps, renderers)
@@ -50,9 +53,15 @@ Pure Three.js optimization guidelines. 70+ rules across 12 categories.
 - Lighting & Shadows
 - Scene Graph Organization
 - Shader Best Practices (GLSL)
-- TSL - Three.js Shading Language
-- Loading & Assets
+- TSL - Three.js Shading Language (complete reference, post-processing, compute shaders)
+- Loading & Assets (GLTF, DRACO, Meshopt, KTX2)
 - Camera & Controls
+- Animation System (Mixer, blending, morph targets, skeletal)
+- Physics Integration (Rapier, Cannon-es)
+- WebXR / VR / AR
+- Audio (Spatial, HRTF)
+- Mobile Optimization
+- Production (Error handling, migration checklist)
 - Debug & DevTools
 
 ### r3f-best-practices
@@ -92,6 +101,11 @@ React Three Fiber and Poimandres ecosystem best practices. 60+ rules across 11 c
 Once installed, the agent uses skills automatically based on context:
 
 ```
+Review my entire Three.js app and give me a score from 1 to 100.
+Explain what's good, what needs improvement, and provide actionable fixes.
+```
+
+```
 Help me set up a Three.js scene with proper memory management
 ```
 
@@ -105,6 +119,18 @@ How do I load GLTF models with Drei?
 
 ```
 Optimize my shader for mobile devices
+```
+
+```
+Set up WebXR for my VR experience
+```
+
+```
+Implement GPU particles with compute shaders
+```
+
+```
+Integrate Rapier physics with my Three.js scene
 ```
 
 ## Supported Agents
@@ -122,7 +148,7 @@ Works with any agent that supports the [Agent Skills](https://agentskills.io/) s
 
 - Full Three.js guide: [THREE_BEST_PRACTICES.md](./THREE_BEST_PRACTICES.md)
 - Full R3F guide: [R3F_BEST_PRACTICES.md](./R3F_BEST_PRACTICES.md)
-- Creating skills: [AGENTS.md](./AGENTS.md)
+- Creating skills: [CLAUDE.md](./CLAUDE.md)
 
 ## License
 

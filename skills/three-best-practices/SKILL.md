@@ -4,13 +4,13 @@ description: Three.js performance optimization and best practices guidelines. Us
 license: MIT
 metadata:
   author: three-agent-skills
-  version: "1.0.0"
-  three-version: "0.182.0"
+  version: "2.0.0"
+  three-version: "0.182.0+"
 ---
 
 # Three.js Best Practices
 
-Comprehensive performance optimization guide for Three.js applications. Contains 70+ rules across 12 categories, prioritized by impact.
+Comprehensive performance optimization guide for Three.js applications. Contains 100+ rules across 17 categories, prioritized by impact.
 
 > Based on official guidelines from Three.js `llms` branch maintained by mrdoob.
 
@@ -22,6 +22,9 @@ Reference these guidelines when:
 - Optimizing performance or fixing memory leaks
 - Working with custom shaders (GLSL or TSL)
 - Implementing WebGPU features
+- Building VR/AR experiences with WebXR
+- Integrating physics engines
+- Optimizing for mobile devices
 
 ## Rule Categories by Priority
 
@@ -38,7 +41,13 @@ Reference these guidelines when:
 | 8 | TSL (Three.js Shading Language) | MEDIUM | `tsl-` |
 | 9 | Loading & Assets | MEDIUM | `loading-` |
 | 10 | Camera & Controls | LOW-MEDIUM | `camera-` |
-| 11 | Debug & DevTools | LOW | `debug-` |
+| 11 | Animation System | MEDIUM | `animation-` |
+| 12 | Physics Integration | MEDIUM | `physics-` |
+| 13 | WebXR / VR / AR | MEDIUM | `webxr-` |
+| 14 | Audio | LOW-MEDIUM | `audio-` |
+| 15 | Mobile Optimization | HIGH | `mobile-` |
+| 16 | Production | HIGH | `error-`, `migration-` |
+| 17 | Debug & DevTools | LOW | `debug-` |
 
 ## Quick Reference
 
@@ -125,30 +134,33 @@ Reference these guidelines when:
 - `shader-varying-interpolation` - Use flat when appropriate
 - `shader-chunk-injection` - Use Three.js shader chunks
 
-### 8. TSL (MEDIUM)
+### 8. TSL - Three.js Shading Language (MEDIUM)
 
 - `tsl-why-use` - Use TSL instead of onBeforeCompile
 - `tsl-setup-webgpu` - WebGPU setup for TSL
+- `tsl-complete-reference` - Full TSL type system and functions
+- `tsl-material-slots` - Material node properties reference
 - `tsl-node-materials` - Use NodeMaterial classes
 - `tsl-basic-operations` - Types, operations, swizzling
-- `tsl-material-nodes` - Key material node properties
 - `tsl-functions` - Creating TSL functions with Fn()
 - `tsl-conditionals` - If, select, loops in TSL
 - `tsl-textures` - Textures and triplanar mapping
 - `tsl-post-processing` - bloom, blur, dof, ao
+- `tsl-compute-shaders` - GPGPU and compute operations
 - `tsl-glsl-to-tsl` - GLSL to TSL translation
 
-### 9. Loading (MEDIUM)
+### 9. Loading & Assets (MEDIUM)
 
 - `loading-draco-compression` - Use Draco for large meshes
 - `loading-gltf-preferred` - Use glTF format
+- `gltf-loading-optimization` - Full loader setup with DRACO/Meshopt/KTX2
 - `loading-progress-feedback` - Show loading progress
 - `loading-async-await` - Use async/await for loading
 - `loading-lazy` - Lazy load non-critical assets
 - `loading-cache-assets` - Enable caching
 - `loading-dispose-unused` - Unload unused assets
 
-### 10. Camera (LOW-MEDIUM)
+### 10. Camera & Controls (LOW-MEDIUM)
 
 - `camera-near-far` - Set tight near/far planes
 - `camera-fov` - Choose appropriate FOV
@@ -156,7 +168,33 @@ Reference these guidelines when:
 - `camera-resize-handler` - Handle resize properly
 - `camera-orbit-limits` - Set orbit control limits
 
-### 11. Debug (LOW)
+### 11. Animation (MEDIUM)
+
+- `animation-system` - AnimationMixer, blending, morph targets, skeletal
+
+### 12. Physics (MEDIUM)
+
+- `physics-integration` - Rapier, Cannon-es integration patterns
+
+### 13. WebXR (MEDIUM)
+
+- `webxr-setup` - VR/AR buttons, controllers, hit testing
+
+### 14. Audio (LOW-MEDIUM)
+
+- `audio-spatial` - PositionalAudio, HRTF, spatial sound
+
+### 15. Optimization (HIGH)
+
+- `mobile-optimization` - Mobile-specific optimizations and checklist
+- `raycasting-optimization` - BVH, layers, GPU picking
+
+### 16. Production (HIGH)
+
+- `error-handling-recovery` - WebGL context loss and recovery
+- `migration-checklist` - Breaking changes by version
+
+### 17. Debug (LOW)
 
 - `debug-stats` - Use Stats.js
 - `debug-helpers` - Use built-in helpers
@@ -171,7 +209,8 @@ Read individual rule files for detailed explanations and code examples:
 ```
 rules/setup-use-import-maps.md
 rules/memory-dispose-geometry.md
-rules/tsl-basic-operations.md
+rules/tsl-complete-reference.md
+rules/mobile-optimization.md
 ```
 
 Each rule file contains:
@@ -179,10 +218,6 @@ Each rule file contains:
 - BAD code example with explanation
 - GOOD code example with explanation
 - Additional context and references
-
-## Full Compiled Document
-
-For the complete guide with all rules expanded: `../THREE_BEST_PRACTICES.md`
 
 ## Key Patterns
 
@@ -193,7 +228,8 @@ For the complete guide with all rules expanded: `../THREE_BEST_PRACTICES.md`
 {
   "imports": {
     "three": "https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.182.0/examples/jsm/"
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.182.0/examples/jsm/",
+    "three/tsl": "https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.tsl.js"
   }
 }
 </script>
@@ -222,4 +258,11 @@ import { texture, uv, color, time, sin } from 'three/tsl';
 const material = new THREE.MeshStandardNodeMaterial();
 material.colorNode = texture(map).mul(color(0xff0000));
 material.colorNode = color(0x00ff00).mul(sin(time).mul(0.5).add(0.5));
+```
+
+### Mobile Detection
+
+```javascript
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 ```

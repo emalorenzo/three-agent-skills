@@ -78,6 +78,8 @@
 ## Priority 8: TSL - Three.js Shading Language (MEDIUM)
 - tsl-why-use
 - tsl-setup-webgpu
+- tsl-complete-reference
+- tsl-material-slots
 - tsl-node-materials
 - tsl-basic-operations
 - tsl-material-nodes
@@ -85,11 +87,13 @@
 - tsl-conditionals
 - tsl-textures
 - tsl-post-processing
+- tsl-compute-shaders
 - tsl-glsl-to-tsl
 
 ## Priority 9: Loading & Assets (MEDIUM)
 - loading-draco-compression
 - loading-gltf-preferred
+- gltf-loading-optimization
 - loading-progress-feedback
 - loading-async-await
 - loading-lazy
@@ -103,7 +107,27 @@
 - camera-resize-handler
 - camera-orbit-limits
 
-## Priority 11: Debug & DevTools (LOW)
+## Priority 11: Animation System (MEDIUM)
+- animation-system
+
+## Priority 12: Physics Integration (MEDIUM)
+- physics-integration
+
+## Priority 13: WebXR / VR / AR (MEDIUM)
+- webxr-setup
+
+## Priority 14: Audio (LOW-MEDIUM)
+- audio-spatial
+
+## Priority 15: Optimization (HIGH)
+- mobile-optimization
+- raycasting-optimization
+
+## Priority 16: Production (HIGH)
+- error-handling-recovery
+- migration-checklist
+
+## Priority 17: Debug & DevTools (LOW)
 - debug-stats
 - debug-helpers
 - debug-gui
