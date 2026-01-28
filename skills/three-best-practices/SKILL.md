@@ -4,15 +4,19 @@ description: Three.js performance optimization and best practices guidelines. Us
 license: MIT
 metadata:
   author: three-agent-skills
-  version: "2.0.0"
+  version: "2.1.0"
   three-version: "0.182.0+"
 ---
 
 # Three.js Best Practices
 
-Comprehensive performance optimization guide for Three.js applications. Contains 100+ rules across 17 categories, prioritized by impact.
+Comprehensive performance optimization guide for Three.js applications. Contains 120+ rules across 18 categories, prioritized by impact.
 
-> Based on official guidelines from Three.js `llms` branch maintained by mrdoob.
+## Sources & Credits
+
+> This skill compiles best practices from multiple authoritative sources:
+> - Official guidelines from Three.js `llms` branch maintained by [mrdoob](https://github.com/mrdoob)
+> - [100 Three.js Tips](https://www.utsubo.com/blog/threejs-best-practices-100-tips) by [Utsubo](https://www.utsubo.com) - Excellent comprehensive guide covering WebGPU, asset optimization, and performance tips
 
 ## When to Apply
 
@@ -33,21 +37,26 @@ Reference these guidelines when:
 | 0 | Modern Setup & Imports | FUNDAMENTAL | `setup-` |
 | 1 | Memory Management & Dispose | CRITICAL | `memory-` |
 | 2 | Render Loop Optimization | CRITICAL | `render-` |
-| 3 | Geometry & Buffer Management | HIGH | `geometry-` |
-| 4 | Material & Texture Optimization | HIGH | `material-` |
-| 5 | Lighting & Shadows | MEDIUM-HIGH | `lighting-` |
-| 6 | Scene Graph Organization | MEDIUM | `scene-` |
-| 7 | Shader Best Practices (GLSL) | MEDIUM | `shader-` |
-| 8 | TSL (Three.js Shading Language) | MEDIUM | `tsl-` |
-| 9 | Loading & Assets | MEDIUM | `loading-` |
-| 10 | Camera & Controls | LOW-MEDIUM | `camera-` |
-| 11 | Animation System | MEDIUM | `animation-` |
-| 12 | Physics Integration | MEDIUM | `physics-` |
-| 13 | WebXR / VR / AR | MEDIUM | `webxr-` |
-| 14 | Audio | LOW-MEDIUM | `audio-` |
-| 15 | Mobile Optimization | HIGH | `mobile-` |
-| 16 | Production | HIGH | `error-`, `migration-` |
-| 17 | Debug & DevTools | LOW | `debug-` |
+| 3 | Draw Call Optimization | CRITICAL | `drawcall-` |
+| 4 | Geometry & Buffer Management | HIGH | `geometry-` |
+| 5 | Material & Texture Optimization | HIGH | `material-` |
+| 6 | Asset Compression | HIGH | `asset-` |
+| 7 | Lighting & Shadows | MEDIUM-HIGH | `lighting-` |
+| 8 | Scene Graph Organization | MEDIUM | `scene-` |
+| 9 | Shader Best Practices (GLSL) | MEDIUM | `shader-` |
+| 10 | TSL (Three.js Shading Language) | MEDIUM | `tsl-` |
+| 11 | WebGPU Renderer | MEDIUM | `webgpu-` |
+| 12 | Loading & Assets | MEDIUM | `loading-` |
+| 13 | Core Web Vitals | MEDIUM-HIGH | `vitals-` |
+| 14 | Camera & Controls | LOW-MEDIUM | `camera-` |
+| 15 | Animation System | MEDIUM | `animation-` |
+| 16 | Physics Integration | MEDIUM | `physics-` |
+| 17 | WebXR / VR / AR | MEDIUM | `webxr-` |
+| 18 | Audio | LOW-MEDIUM | `audio-` |
+| 19 | Post-Processing | MEDIUM | `postpro-` |
+| 20 | Mobile Optimization | HIGH | `mobile-` |
+| 21 | Production | HIGH | `error-`, `migration-` |
+| 22 | Debug & DevTools | LOW | `debug-` |
 
 ## Quick Reference
 
@@ -81,7 +90,14 @@ Reference these guidelines when:
 - `render-pixel-ratio` - Limit pixel ratio to 2
 - `render-antialias-wisely` - Use antialiasing judiciously
 
-### 3. Geometry (HIGH)
+### 3. Draw Call Optimization (CRITICAL)
+
+- `draw-call-optimization` - Target under 100 draw calls per frame
+- `geometry-instanced-mesh` - Use InstancedMesh for identical objects
+- `geometry-batched-mesh` - Use BatchedMesh for varied geometries (same material)
+- `geometry-merge-static` - Merge static geometries with BufferGeometryUtils
+
+### 4. Geometry (HIGH)
 
 - `geometry-buffer-geometry` - Always use BufferGeometry
 - `geometry-merge-static` - Merge static geometries
@@ -92,7 +108,7 @@ Reference these guidelines when:
 - `geometry-attributes-typed` - Use appropriate typed arrays
 - `geometry-interleaved` - Consider interleaved buffers
 
-### 4. Materials & Textures (HIGH)
+### 5. Materials & Textures (HIGH)
 
 - `material-reuse` - Reuse materials across meshes
 - `material-simplest-sufficient` - Use simplest material that works
@@ -104,37 +120,51 @@ Reference these guidelines when:
 - `material-avoid-transparency` - Minimize transparent materials
 - `material-onbeforecompile` - Use onBeforeCompile for shader mods (or TSL)
 
-### 5. Lighting & Shadows (MEDIUM-HIGH)
+### 6. Asset Compression (HIGH)
 
-- `lighting-limit-lights` - Minimize dynamic lights
+- `asset-compression` - Draco, Meshopt, KTX2 compression guide
+- `asset-draco` - 90-95% geometry size reduction
+- `asset-ktx2` - GPU-compressed textures (UASTC vs ETC1S)
+- `asset-meshopt` - Alternative to Draco with faster decompression
+- `asset-lod` - Level of Detail for 30-40% frame rate improvement
+
+### 7. Lighting & Shadows (MEDIUM-HIGH)
+
+- `lighting-limit-lights` - Limit to 3 or fewer active lights
+- `lighting-shadows-advanced` - PointLight cost, CSM, fake shadows
 - `lighting-bake-static` - Bake lighting for static scenes
 - `lighting-shadow-camera-tight` - Fit shadow camera tightly
-- `lighting-shadow-map-size` - Choose appropriate shadow resolution
+- `lighting-shadow-map-size` - Choose appropriate shadow resolution (512-4096)
 - `lighting-shadow-selective` - Enable shadows selectively
 - `lighting-shadow-cascade` - Use CSM for large scenes
+- `lighting-shadow-auto-update` - Disable autoUpdate for static scenes
 - `lighting-probe` - Use Light Probes
+- `lighting-environment` - Environment maps for ambient light
+- `lighting-fake-shadows` - Gradient planes for budget contact shadows
 
-### 6. Scene Graph (MEDIUM)
+### 8. Scene Graph (MEDIUM)
 
 - `scene-group-objects` - Use Groups for organization
 - `scene-layers` - Use Layers for selective rendering
 - `scene-visible-toggle` - Use visible flag, not add/remove
 - `scene-flatten-static` - Flatten static hierarchies
 - `scene-name-objects` - Name objects for debugging
-- `scene-object-pooling` - Use object pooling
+- `object-pooling` - Reuse objects instead of create/destroy
 
-### 7. Shaders GLSL (MEDIUM)
+### 9. Shaders GLSL (MEDIUM)
 
-- `shader-precision` - Use appropriate precision
-- `shader-avoid-branching` - Minimize branching
+- `shader-precision` - Use mediump for mobile (~2x faster)
+- `shader-mobile` - Mobile-specific optimizations (varyings, branching)
+- `shader-avoid-branching` - Replace conditionals with mix/step
 - `shader-precompute-cpu` - Precompute on CPU
 - `shader-avoid-discard` - Avoid discard, use alphaTest
 - `shader-texture-lod` - Use textureLod for known mip levels
 - `shader-uniform-arrays` - Prefer uniform arrays
-- `shader-varying-interpolation` - Use flat when appropriate
+- `shader-varying-interpolation` - Limit varyings to 3 for mobile
+- `shader-pack-data` - Pack data into RGBA channels
 - `shader-chunk-injection` - Use Three.js shader chunks
 
-### 8. TSL - Three.js Shading Language (MEDIUM)
+### 10. TSL - Three.js Shading Language (MEDIUM)
 
 - `tsl-why-use` - Use TSL instead of onBeforeCompile
 - `tsl-setup-webgpu` - WebGPU setup for TSL
@@ -145,11 +175,22 @@ Reference these guidelines when:
 - `tsl-functions` - Creating TSL functions with Fn()
 - `tsl-conditionals` - If, select, loops in TSL
 - `tsl-textures` - Textures and triplanar mapping
+- `tsl-noise` - Built-in noise functions (mx_noise_float, mx_fractal_noise)
 - `tsl-post-processing` - bloom, blur, dof, ao
 - `tsl-compute-shaders` - GPGPU and compute operations
 - `tsl-glsl-to-tsl` - GLSL to TSL translation
 
-### 9. Loading & Assets (MEDIUM)
+### 11. WebGPU Renderer (MEDIUM)
+
+- `webgpu-renderer` - Setup, browser support, migration guide
+- `webgpu-render-async` - Use renderAsync for compute-heavy scenes
+- `webgpu-feature-detection` - Check adapter features
+- `webgpu-instanced-array` - GPU-persistent buffers
+- `webgpu-storage-textures` - Read-write compute textures
+- `webgpu-workgroup-memory` - Shared memory (10-100x faster)
+- `webgpu-indirect-draws` - GPU-driven rendering
+
+### 12. Loading & Assets (MEDIUM)
 
 - `loading-draco-compression` - Use Draco for large meshes
 - `loading-gltf-preferred` - Use glTF format
@@ -160,7 +201,18 @@ Reference these guidelines when:
 - `loading-cache-assets` - Enable caching
 - `loading-dispose-unused` - Unload unused assets
 
-### 10. Camera & Controls (LOW-MEDIUM)
+### 13. Core Web Vitals (MEDIUM-HIGH)
+
+- `core-web-vitals` - LCP, FID, CLS optimization for 3D
+- `vitals-lazy-load` - Lazy load 3D below the fold with IntersectionObserver
+- `vitals-code-split` - Dynamic import Three.js modules
+- `vitals-preload` - Preload critical assets with link tags
+- `vitals-progressive-loading` - Low-res to high-res progressive load
+- `vitals-placeholders` - Show placeholder geometry during load
+- `vitals-web-workers` - Offload heavy work to workers
+- `vitals-streaming` - Stream large scenes by chunks
+
+### 14. Camera & Controls (LOW-MEDIUM)
 
 - `camera-near-far` - Set tight near/far planes
 - `camera-fov` - Choose appropriate FOV
@@ -168,38 +220,52 @@ Reference these guidelines when:
 - `camera-resize-handler` - Handle resize properly
 - `camera-orbit-limits` - Set orbit control limits
 
-### 11. Animation (MEDIUM)
+### 15. Animation (MEDIUM)
 
 - `animation-system` - AnimationMixer, blending, morph targets, skeletal
 
-### 12. Physics (MEDIUM)
+### 16. Physics (MEDIUM)
 
 - `physics-integration` - Rapier, Cannon-es integration patterns
+- `physics-compute-shaders` - GPU physics with compute shaders
 
-### 13. WebXR (MEDIUM)
+### 17. WebXR (MEDIUM)
 
 - `webxr-setup` - VR/AR buttons, controllers, hit testing
 
-### 14. Audio (LOW-MEDIUM)
+### 18. Audio (LOW-MEDIUM)
 
 - `audio-spatial` - PositionalAudio, HRTF, spatial sound
 
-### 15. Optimization (HIGH)
+### 19. Post-Processing (MEDIUM)
+
+- `postprocessing-optimization` - pmndrs/postprocessing guide
+- `postpro-renderer-config` - Disable AA, stencil, depth for post
+- `postpro-merge-effects` - Combine effects in single pass
+- `postpro-selective-bloom` - Selective bloom for performance
+- `postpro-resolution-scaling` - Half resolution for 2x FPS
+- `postpro-webgpu-native` - TSL-based post for WebGPU
+
+### 20. Optimization (HIGH)
 
 - `mobile-optimization` - Mobile-specific optimizations and checklist
 - `raycasting-optimization` - BVH, layers, GPU picking
 
-### 16. Production (HIGH)
+### 21. Production (HIGH)
 
 - `error-handling-recovery` - WebGL context loss and recovery
 - `migration-checklist` - Breaking changes by version
 
-### 17. Debug (LOW)
+### 22. Debug & DevTools (LOW)
 
-- `debug-stats` - Use Stats.js
-- `debug-helpers` - Use built-in helpers
-- `debug-gui` - Use lil-gui for tweaking
-- `debug-renderer-info` - Check renderer.info
+- `debug-devtools` - Complete debugging toolkit
+- `debug-stats-gl` - stats-gl for WebGL/WebGPU monitoring
+- `debug-lil-gui` - lil-gui for live parameter tweaking
+- `debug-spector` - Spector.js for WebGL frame capture
+- `debug-renderer-info` - Monitor draw calls and memory
+- `debug-three-mesh-bvh` - Fast raycasting with BVH
+- `debug-context-lost` - Handle WebGL context loss
+- `debug-animation-loop-profiling` - Profile render loop sections
 - `debug-conditional` - Remove debug code in production
 
 ## How to Use

@@ -9,6 +9,8 @@
 - perf-keys-for-lists
 - perf-avoid-inline-objects
 - perf-dispose-auto
+- perf-visibility-toggle
+- perf-r3f-perf
 
 ## Priority 2: useFrame & Animation (CRITICAL)
 - frame-priority

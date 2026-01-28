@@ -4,12 +4,16 @@ description: React Three Fiber (R3F) and Poimandres ecosystem best practices. Us
 license: MIT
 metadata:
   author: three-agent-skills
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # React Three Fiber Best Practices
 
-Comprehensive guide for React Three Fiber and the Poimandres ecosystem. Contains 60+ rules across 11 categories, prioritized by impact.
+Comprehensive guide for React Three Fiber and the Poimandres ecosystem. Contains 70+ rules across 12 categories, prioritized by impact.
+
+## Sources & Credits
+
+> Additional tips from [100 Three.js Tips](https://www.utsubo.com/blog/threejs-best-practices-100-tips) by [Utsubo](https://www.utsubo.com)
 
 ## When to Apply
 
@@ -57,6 +61,8 @@ Reference these guidelines when:
 - `perf-keys-for-lists` - Use stable keys for dynamic lists
 - `perf-avoid-inline-objects` - Avoid creating objects/arrays in JSX
 - `perf-dispose-auto` - Understand R3F auto-dispose behavior
+- `perf-visibility-toggle` - Toggle visibility instead of remounting
+- `perf-r3f-perf` - Use r3f-perf for performance monitoring
 
 ### 2. useFrame & Animation (CRITICAL)
 
@@ -227,4 +233,29 @@ function App() {
     </Canvas>
   );
 }
+```
+
+### r3f-perf Monitoring
+
+```jsx
+import { Perf } from 'r3f-perf';
+
+function App() {
+  return (
+    <Canvas>
+      <Perf position="top-left" />
+      <Scene />
+    </Canvas>
+  );
+}
+```
+
+### Toggle Visibility (Not Remounting)
+
+```jsx
+// BAD: Remounting destroys and recreates
+{showModel && <Model />}
+
+// GOOD: Toggle visibility, keeps instance alive
+<Model visible={showModel} />
 ```
